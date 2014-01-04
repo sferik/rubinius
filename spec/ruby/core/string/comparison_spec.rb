@@ -104,3 +104,179 @@ describe "String#<=>" do
     ("abc" <=> obj).should be_nil
   end
 end
+
+describe "String" do
+  it "is Comparable" do
+    "a".is_a?(Comparable).should be true
+  end
+
+  describe "#<" do
+    context "when other is a string" do
+      it "returns true when value is less than other" do
+        ("a" < "b").should be true
+      end
+      it "returns false when value is greater than or equal to other" do
+        ("b" < "a").should be false
+        ("a" < "a").should be false
+      end
+    end
+    context "when other is a symbol" do
+      it "raises an error" do
+        lambda { "a" < :a }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is a fixnum" do
+      it "raises an error" do
+        lambda { "a" < 1 }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is an object" do
+      it "raises an error" do
+        obj = Object.new
+        lambda { "a" < obj }.should raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe "#<=" do
+    context "when other is a string" do
+      it "returns true when value is less then or equal to other" do
+        ("a" <= "b").should be true
+        ("a" <= "a").should be true
+      end
+      it "returns false when value is greater than other" do
+        ("b" <= "a").should be false
+      end
+    end
+    context "when other is a symbol" do
+      it "raises an error" do
+        lambda { "a" <= :a }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is a fixnum" do
+      it "raises an error" do
+        lambda { "a" <= 1 }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is an object" do
+      it "raises an error" do
+        obj = Object.new
+        lambda { "a" <= obj }.should raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe "#==" do
+    context "when other is a string" do
+      it "returns true when value is equal to other" do
+        ("a" == "a").should be true
+      end
+      it "returns false when value is less than or greater than other" do
+        ("a" == "b").should be false
+        ("b" == "a").should be false
+      end
+    end
+    context "when other is a symbol" do
+      it "returns false" do
+        ("a" == :a).should be false
+      end
+    end
+    context "when other is a fixnum" do
+      it "returns false" do
+        ("a" == 1).should be false
+      end
+    end
+    context "when other is an object" do
+      it "returns false" do
+        obj = Object.new
+        ("a" == obj).should be false
+      end
+    end
+  end
+
+  describe "#>" do
+    context "when other is a string" do
+      it "returns true when value is greater than other" do
+        ("b" > "a").should be true
+      end
+      it "returns false when value is less than or equal to other" do
+        ("a" > "b").should be false
+        ("a" > "a").should be false
+      end
+    end
+    context "when other is a symbol" do
+      it "raises an error" do
+        lambda { "a" > :a }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is a fixnum" do
+      it "raises an error" do
+        lambda { "a" > 1 }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is an object" do
+      it "raises an error" do
+        obj = Object.new
+        lambda { "a" > obj }.should raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe "#>=" do
+    context "when other is a string" do
+      it "returns true when value is greater than or equal to other" do
+        ("b" >= "a").should be true
+        ("a" >= "a").should be true
+      end
+      it "returns false when value is less than other" do
+        ("a" >= "b").should be false
+      end
+    end
+    context "when other is a symbol" do
+      it "raises an error" do
+        lambda { "a" >= :a }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is a fixnum" do
+      it "raises an error" do
+        lambda { "a" >= 1 }.should raise_error(ArgumentError)
+      end
+    end
+    context "when other is an object" do
+      it "raises an error" do
+        obj = Object.new
+        lambda { "a" > obj }.should raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe "#between?" do
+    context "when min and max are strings" do
+      it "returns true when value is inside min and max, inclusive" do
+        ("a".between?("a", "c")).should be true
+        ("b".between?("a", "c")).should be true
+        ("c".between?("a", "c")).should be true
+      end
+      it "returns false when value is outside min and max" do
+        ("d".between?("a", "c")).should be false
+      end
+    end
+    context "when min and max are symbols" do
+      it "raises an error" do
+        lambda { "a".between?(:a, :c) }.should raise_error(ArgumentError)
+      end
+    end
+    context "when min and max are fixnums" do
+      it "raises an error" do
+        lambda { "a".between?(1, 2) }.should raise_error(ArgumentError)
+      end
+    end
+    context "when min and max are objects" do
+      it "raises an error" do
+        min = Object.new
+        max = Object.new
+        lambda { "a".between?(min, max) }.should raise_error(ArgumentError)
+      end
+    end
+  end
+end
